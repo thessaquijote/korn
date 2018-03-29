@@ -50,7 +50,7 @@ statement:
     | subprogramCall
     | conditionalStatement
     | iterationalStatement)
-    NEWLINE
+    NEWLINE+
 ;
 
 iterationalStatement:
@@ -247,6 +247,5 @@ CharacterSequence:      Character+;
 Character:              NonDigitCharacter | Digit;
 Comments:               '/**' ( '\\' [\\"] | ~[\\"] )* '**/' -> skip;
 Spaces:                 [ \t]+ -> skip;
-GARBAGELINES:           ('\n' ' '* '\n')+ -> skip;
 NEWLINE:                ('\r' | '\n');
 GARBAGELINE:            ('\n') -> skip;
