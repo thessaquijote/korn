@@ -160,6 +160,11 @@ arithmeticExpression:
 varDeclaration:
     dataType variableList
     | arrayDeclaration
+    | boxDeclaration
+;
+
+boxDeclaration:
+    identifier identifier
 ;
 
 value:
