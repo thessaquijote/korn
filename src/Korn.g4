@@ -25,7 +25,7 @@ block:
 ;
 
 variableBlock:
-    BlockStarter (varDeclaration NEWLINE+) End
+    BlockStarter (varDeclaration NEWLINE+)+ End
 ;
 
 boxElement:
@@ -240,9 +240,7 @@ CharacterSequence:      Character+;
 CharWithSpaceSequence:  CharWithSpace+;
 CharWithSpace:          Character;
 Character:              NonDigitCharacter | Digit;
-//NEWLINE:                ( '\r'? '\n' | '\r' ) { if (pendingDent) { setChannel(HIDDEN); } pendingDent = true; indentCount = 0; initialIndentToken = null; } ;
-//WS:                     [\t]+ { setChannel(HIDDEN); if (pendingDent) { indentCount += getText().length(); } } ;
-GARBAGELINES:           ('\n' ' '* '\n'+ ) -> skip;
+GARBAGELINES:           ('\n' ' '* '\n'+) -> skip;
 NEWLINE:                ('\r' | '\n');
 GARBAGELINE:            ('\n') -> skip;
 Spaces:                 [ \t]+ -> skip;
