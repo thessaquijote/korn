@@ -202,6 +202,8 @@ dataType:
     DataType
 ;
 
+
+
 DataType:               'letter' | 'number' | 'decimal' | 'sentence' | 'boolean';
 Boolean:                'true' | 'false';
 ArithmeticOperator:     '*' | 'multiply with' | '+' | 'add with' | '-' | 'subtract with' | '/' | 'divide with';
@@ -236,15 +238,14 @@ DigitSequence:          Digit+;
 Digit:                  Zero | NonZeroDigit;
 RecordMemberOperator:   Dot;
 Identifier:             NonDigitCharacter CharacterSequence;
-StringLiteral:          (Quote (CharWithSpaceSequence) Quote) | (OneQuote (CharWithSpaceSequence) OneQuote);
+StringLiteral:          (Quote ([\w]) Quote) | (OneQuote ([\w]) OneQuote);
 NonZeroDigit:           [1-9];
 Zero:                   [0];
 NonDigitCharacter:      [a-zA-Z_];
 Dot:                    '.';
 CharacterSequence:      Character+;
-CharWithSpaceSequence:  CharWithSpace+;
-CharWithSpace:          Character;
 Character:              NonDigitCharacter | Digit;
+Comments:               '/**' [\w] '**/' -> skip;
 GARBAGELINES:           ('\n' ' '* '\n'+) -> skip;
 NEWLINE:                ('\r' | '\n');
 GARBAGELINE:            ('\n') -> skip;
