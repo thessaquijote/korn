@@ -17,7 +17,7 @@ blockEnd:
 ;
 
 returnStatement:
-    ReturnKeyword (value | variable) NEWLINE+
+    ReturnKeyword (value | variable) NEWLINE
 ;
 
 block:
@@ -25,7 +25,7 @@ block:
 ;
 
 variableBlock:
-    BlockStarter (varDeclaration NEWLINE+)+ End
+    BlockStarter (varDeclaration NEWLINE)+ End
 ;
 
 boxElement:
@@ -50,7 +50,7 @@ statement:
     | subprogramCall
     | conditionalStatement
     | iterationalStatement)
-    NEWLINE+
+    NEWLINE
 ;
 
 iterationalStatement:
@@ -237,7 +237,7 @@ End:                    'end';
 DigitSequence:          Digit+;
 Digit:                  Zero | NonZeroDigit;
 RecordMemberOperator:   Dot;
-Identifier:             NonDigitCharacter CharacterSequence;
+Identifier:             NonDigitCharacter CharacterSequence*;
 StringLiteral:          ('"' ( '\\' [\\"] | ~[\\"] )* '"') | ('\'' ( '\\' [\\"] | ~[\\"] )* '\'');
 NonZeroDigit:           [1-9];
 Zero:                   [0];
@@ -246,7 +246,7 @@ Dot:                    '.';
 CharacterSequence:      Character+;
 Character:              NonDigitCharacter | Digit;
 Comments:               '/**' ( '\\' [\\"] | ~[\\"] )* '**/' -> skip;
-GARBAGELINES:           ('\n' ' '* '\n'+) -> skip;
+Spaces:                 [ \t]+ -> skip;
+GARBAGELINES:           ('\n' ' '* '\n')+ -> skip;
 NEWLINE:                ('\r' | '\n');
 GARBAGELINE:            ('\n') -> skip;
-Spaces:                 [ \t]+ -> skip;

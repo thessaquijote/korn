@@ -19,8 +19,8 @@
       <file leaf-file-name="Korn.g4" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Korn.g4">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="247" column="54" lean-forward="false" selection-start-line="247" selection-start-column="54" selection-end-line="247" selection-end-column="54" />
+            <state relative-caret-position="317">
+              <caret line="239" column="60" lean-forward="false" selection-start-line="239" selection-start-column="60" selection-end-line="239" selection-end-column="60" />
               <folding />
             </state>
           </provider>
@@ -44,7 +44,6 @@
       <find>digitSequence</find>
       <find>arrayDeclaration</find>
       <find>Number</find>
-      <find>NEWLINE</find>
       <find>assignemtn</find>
       <find>statement</find>
       <find>ifConditio</find>
@@ -60,6 +59,7 @@
       <find>StringLiteral</find>
       <find>charWithSpace</find>
       <find>return</find>
+      <find>NEWLINE</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -570,8 +570,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Korn.g4">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="247" column="54" lean-forward="false" selection-start-line="247" selection-start-column="54" selection-end-line="247" selection-end-column="54" />
+        <state relative-caret-position="317">
+          <caret line="239" column="60" lean-forward="false" selection-start-line="239" selection-start-column="60" selection-end-line="239" selection-end-column="60" />
           <folding />
         </state>
       </provider>
