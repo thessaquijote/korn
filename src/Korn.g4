@@ -46,7 +46,7 @@ arrayDeclaration:
 
 statement:
     (varDeclaration
-    | expression
+    | assignmentExpression
     | subprogramCall
     | conditionalStatement
     | iterationalStatement)
