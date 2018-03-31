@@ -153,12 +153,8 @@ assignmentExpression:
 assignmentRightOperand:
     variable
     | value
-    | expression
-    | subprogramCall
-    | relationalExpression
     | arithmeticExpression
-    | logicalExpression
-    | equalityExpression
+    | subprogramCall
 ;
 
 logicalExpression:
@@ -266,10 +262,10 @@ Separator:              ',';
 End:                    'end';
 DigitSequence:          Digit+;
 Digit:                  Zero | NonZeroDigit;
+NonZeroDigit:           [1-9];
 RecordMemberOperator:   Dot;
 Identifier:             NonDigitCharacter CharacterSequence*;
 StringLiteral:          ('"' ( '\\' [\\"] | ~[\\"] )* '"') | ('\'' ( '\\' [\\"] | ~[\\"] )* '\'');
-NonZeroDigit:           [1-9];
 Zero:                   [0];
 NonDigitCharacter:      [a-zA-Z_];
 Dot:                    '.';
