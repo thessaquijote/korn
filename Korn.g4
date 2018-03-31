@@ -163,6 +163,7 @@ assignmentRightOperand:
 
 logicalExpression:
     (booleanValue | variable) (operator=LogicalOperator (booleanValue | variable))+
+    | (operator=LogicalOperatorNot (booleanValue | variable))+
 ;
 
 equalityExpression:
@@ -239,6 +240,7 @@ EqualityOperator:       'is equal to' | 'is not equal to';
 ArrayRangeKeyword:      'from 1 to';
 AssignmentOperator:     'gets';
 LogicalOperator:        'and' | 'or';
+LogicalOperatorNot:     'not';
 TaskKeyword:            'task';
 StepKeyword:            'step';
 ArgumentOperator:       'with';
