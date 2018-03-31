@@ -41,7 +41,7 @@ boxDefinition:
 ;
 
 arrayDeclaration:
-    type=Identifier arrayname=Identifier ArrayRangeKeyword arraylength=number
+    type=(Identifier|DataType) arrayname=Identifier ArrayRangeKeyword arraylength=number
 ;
 
 statement:
@@ -235,8 +235,8 @@ Boolean:                'true' | 'false';
 ArithmeticOperator:     '*' | 'multiply with' | '+' | 'add with' | '-' | 'subtract with' | '/' | 'divide with';
 RelationalOperator:     '>' | '>=' | '<' | '<=';
 EqualityOperator:       'is equal to' | 'is not equal to';
-AssignmentOperator:     'gets';
 ArrayRangeKeyword:      'from 1 to';
+AssignmentOperator:     'gets';
 LogicalOperator:        'and' | 'or';
 TaskKeyword:            'task';
 StepKeyword:            'step';
