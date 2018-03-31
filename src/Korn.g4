@@ -1,7 +1,7 @@
 grammar Korn;
 
 program:
-    (statement | subprogramDefinition | boxDefinition)* EOF
+    (statement | subprogramDefinition | boxDefinition | NEWLINE)+ | (EOF)
 ;
 
 stepBlock:
@@ -13,35 +13,35 @@ taskBlock:
 ;
 
 blockEnd:
-    End
+    End (NEWLINE+ | EOF)
 ;
 
 returnStatement:
-    ReturnKeyword (value | variable) NEWLINE
+    ReturnKeyword (assignmentRightOperand) NEWLINE+
 ;
 
 block:
     BlockStarter statement+ blockEnd
 ;
 
+unEndedBlock:
+    BlockStarter statement+
+;
+
 variableBlock:
-    BlockStarter (varDeclaration NEWLINE)+ End
+    BlockStarter (varDeclaration NEWLINE+)+ End NEWLINE
 ;
 
 boxElement:
-    Identifier RecordMemberOperator Identifier
+    boxname=Identifier RecordMemberOperator member=Identifier
 ;
 
 boxDefinition:
-    RecordKeyword Identifier variableBlock
+    RecordKeyword boxname=Identifier variableBlock
 ;
 
 arrayDeclaration:
-    DataType Identifier ArrayRangeKeyword number
-;
-
-arrayElement:
-    Identifier OpenBracket NonZeroDigit CloseBracket
+    type=Identifier arrayname=Identifier ArrayRangeKeyword arraylength=number
 ;
 
 statement:
@@ -50,20 +50,25 @@ statement:
     | subprogramCall
     | conditionalStatement
     | iterationalStatement)
-    NEWLINE+
+    (NEWLINE+ | EOF)
 ;
 
 iterationalStatement:
     doWhileStatement
     | whileStatement
+    | forEachStatement
 ;
 
 doWhileStatement:
-    DoKeyword block WhileKeyword condition
+    RunKeyword unEndedBlock WhileKeyword condition
 ;
 
 whileStatement:
-    (WhileKeyword condition | WhileKeyword Identifier ArrayIteratorKeyword Identifier) block
+    WhileKeyword condition block
+;
+
+forEachStatement:
+    ForEachKeyword member=Identifier ArrayIteratorKeyword arrayname=Identifier block
 ;
 
 conditionalStatement:
@@ -85,15 +90,15 @@ subprogramDefinition:
 ;
 
 stepDefinition:
-    StepKeyword Identifier subprogramDefinitionArguments? stepBlock
+    StepKeyword stepname=Identifier subprogramDefinitionArguments? stepBlock
 ;
 
 taskDefinition:
-    TaskKeyword Identifier subprogramDefinitionArguments? taskBlock
+    TaskKeyword taskname=Identifier subprogramDefinitionArguments? taskBlock
 ;
 
 subprogramCall:
-    SubprogramInvoker Identifier subprogramCallArguments?
+    SubprogramInvoker function=Identifier subprogramCallArguments?
 ;
 
 subprogramDefinitionArguments:
@@ -109,7 +114,7 @@ valueList:
 ;
 
 noArrayVariableList:
-    Identifier (Separator Identifier)*
+    varname=Identifier (Separator varname=Identifier)*
 ;
 
 variableList:
@@ -117,17 +122,21 @@ variableList:
 ;
 
 variable:
-    Identifier
+    name=Identifier
     | arrayElement
     | boxElement
 ;
 
+arrayElement:
+    arrayname=Identifier OpenBracket arrayindex=NonZeroDigit CloseBracket
+;
+
 expression:
-    (assignmentExpression
+    assignmentExpression
     | relationalExpression
     | arithmeticExpression
     | logicalExpression
-    | equalityExpression)
+    | equalityExpression
 ;
 
 condition:
@@ -138,38 +147,57 @@ condition:
 ;
 
 assignmentExpression:
-    variable AssignmentOperator (expression | variable | value | subprogramCall)
+    variable AssignmentOperator assignmentRightOperand
+;
+
+assignmentRightOperand:
+    variable
+    | value
+    | subprogramCall
+    | relationalExpression
+    | arithmeticExpression
+    | logicalExpression
+    | equalityExpression
 ;
 
 logicalExpression:
-    (Boolean | variable) (LogicalOperator (Boolean | variable))+
+    (booleanValue | variable) (operator=LogicalOperator (booleanValue | variable))+
 ;
 
 equalityExpression:
-    (value | variable) (EqualityOperator (value | variable))+
+    (value | variable) (operator=EqualityOperator (value | variable))+
 ;
 
 relationalExpression:
-    (number | variable) (RelationalOperator (variable | number))+
+    (number | variable) (operator=RelationalOperator (variable | number))+
 ;
 
 arithmeticExpression:
-    (number | variable) (ArithmeticOperator (number | variable))+
+    arithmeticOperand (operator=ArithmeticOperator (arithmeticOperand))+
+;
+
+arithmeticOperand:
+    number
+    | variable
 ;
 
 varDeclaration:
-    dataType variableList
+    primitiveVarDeclaration
     | arrayDeclaration
     | boxDeclaration
 ;
 
+primitiveVarDeclaration:
+    dataType variableList
+;
+
 boxDeclaration:
-    identifier identifier
+    boxname=identifier varname=identifier
 ;
 
 value:
     nonBooleanValue
-    | boolean
+    | booleanValue
 ;
 
 nonBooleanValue:
@@ -177,21 +205,21 @@ nonBooleanValue:
     | string
 ;
 
+booleanValue:
+    Boolean
+;
+
 string:
     StringLiteral
 ;
 
-boolean:
-    Boolean
-;
-
 number:
-    DigitSequence
-    | decimal
+    decimal
+    | wholenumber=DigitSequence
 ;
 
 decimal:
-    DigitSequence Dot DigitSequence
+    wholenumber=DigitSequence Dot decimalvalue=DigitSequence
 ;
 
 identifier:
@@ -202,14 +230,13 @@ dataType:
     DataType
 ;
 
-
-
 DataType:               'letter' | 'number' | 'decimal' | 'sentence' | 'boolean';
 Boolean:                'true' | 'false';
 ArithmeticOperator:     '*' | 'multiply with' | '+' | 'add with' | '-' | 'subtract with' | '/' | 'divide with';
 RelationalOperator:     '>' | '>=' | '<' | '<=';
 EqualityOperator:       'is equal to' | 'is not equal to';
 AssignmentOperator:     'gets';
+ArrayRangeKeyword:      'from 1 to';
 LogicalOperator:        'and' | 'or';
 TaskKeyword:            'task';
 StepKeyword:            'step';
@@ -222,14 +249,14 @@ WhenKeyword:            'when';
 IsKeyword:              'is';
 NoneKeyword:            'none';
 WhileKeyword:           'while';
-DoKeyword:              'do';
+ForEachKeyword:         'for each';
+RunKeyword:             'run';
 ArrayIteratorKeyword:   'in';
-ArrayRangeKeyword:      'from 1 to';
 RecordKeyword:          'Box';
 ReturnKeyword:          'return';
-BlockStarter:           ':' NEWLINE;
 OpenBracket:            '[';
 CloseBracket:           ']';
+BlockStarter:           ':' NEWLINE+;
 Quote:                  '"';
 OneQuote:               '\'';
 Separator:              ',';
@@ -245,7 +272,7 @@ NonDigitCharacter:      [a-zA-Z_];
 Dot:                    '.';
 CharacterSequence:      Character+;
 Character:              NonDigitCharacter | Digit;
+NEWLINE:                [\n\r] | EOF;
 Comments:               '/**' ( '\\' [\\"] | ~[\\"] )* '**/' -> skip;
 Spaces:                 [ \t]+ -> skip;
-NEWLINE:                ('\r' | '\n');
 GARBAGELINE:            ('\n') -> skip;
