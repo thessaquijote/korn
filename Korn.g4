@@ -13,7 +13,7 @@ taskBlock:
 ;
 
 blockEnd:
-    End (NEWLINE+ | EOF)
+    End
 ;
 
 returnStatement:
@@ -128,7 +128,7 @@ variable:
 ;
 
 arrayElement:
-    arrayname=Identifier OpenBracket arrayindex=NonZeroDigit CloseBracket
+    arrayname=Identifier OpenBracket arrayindex=(DigitSequence | Identifier) CloseBracket
 ;
 
 expression:
