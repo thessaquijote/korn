@@ -13,7 +13,7 @@ taskBlock:
 ;
 
 blockEnd:
-    End (NEWLINE+ | EOF)
+    End
 ;
 
 returnStatement:
