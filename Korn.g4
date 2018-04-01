@@ -77,11 +77,11 @@ conditionalStatement:
 ;
 
 whenStatement:
-    WhenKeyword variable BlockStarter (IsKeyword nonBooleanValue block)* (NoneKeyword block)?
+    WhenKeyword variable BlockStarter (IsKeyword nonBooleanValue block)* (IsNoneKeyword block)?
 ;
 
 ifStatement:
-    IfKeyword condition BlockStarter (ElseIfKeyword condition block)* (ElseIfKeyword block)?
+    IfKeyword condition BlockStarter statement+ (ElseIfKeyword condition BlockStarter statement+)* (ElseKeyword block)?
 ;
 
 subprogramDefinition:
@@ -258,7 +258,7 @@ ElseKeyword:            'else';
 ElseIfKeyword:          'else if';
 WhenKeyword:            'when';
 IsKeyword:              'is';
-NoneKeyword:            'none';
+IsNoneKeyword:          'is none';
 WhileKeyword:           'while';
 ForEachKeyword:         'for each';
 RunKeyword:             'run';
