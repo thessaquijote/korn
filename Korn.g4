@@ -77,11 +77,11 @@ conditionalStatement:
 ;
 
 whenStatement:
-    WhenKeyword variable blockBlockStarter (IsKeyword nonBooleanValue block)* (NoneKeyword block)?
+    WhenKeyword variable BlockStarter (IsKeyword nonBooleanValue block)* (NoneKeyword block)?
 ;
 
 ifStatement:
-    IfKeyword condition block (ElseIfKeyword condition block)* (ElseIfKeyword block)?
+    IfKeyword condition BlockStarter (ElseIfKeyword condition block)* (ElseIfKeyword block)?
 ;
 
 subprogramDefinition:
