@@ -77,7 +77,7 @@ conditionalStatement:
 ;
 
 whenStatement:
-    WhenKeyword variable block (IsKeyword nonBooleanValue block)* (NoneKeyword block)?
+    WhenKeyword variable blockBlockStarter (IsKeyword nonBooleanValue block)* (NoneKeyword block)?
 ;
 
 ifStatement:
@@ -161,9 +161,18 @@ assignmentRightOperand:
 ;
 
 logicalExpression:
-    (booleanValue | variable) (operator=LogicalOperator (booleanValue | variable))+
-    | (operator=LogicalOperatorNot (booleanValue | variable))
+    andOrExpression
+    | notExpression
 ;
+
+andOrExpression:
+    (booleanValue | variable) (operator=LogicalOperator (booleanValue | variable))+
+;
+
+notExpression:
+    operator=LogicalOperatorNot (booleanValue | variable)
+;
+
 
 equalityExpression:
     (value | variable) (operator=EqualityOperator (value | variable))+
