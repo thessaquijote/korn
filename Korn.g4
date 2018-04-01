@@ -156,12 +156,13 @@ assignmentRightOperand:
     | arithmeticExpression
     | relationalExpression
     | equalityExpression
+    | logicalExpression
     | subprogramCall
 ;
 
 logicalExpression:
     (booleanValue | variable) (operator=LogicalOperator (booleanValue | variable))+
-    | (operator=LogicalOperatorNot (booleanValue | variable))+
+    | (operator=LogicalOperatorNot (booleanValue | variable))
 ;
 
 equalityExpression:
@@ -219,7 +220,7 @@ number:
 ;
 
 decimal:
-    wholenumber=DigitSequence Dot decimalvalue=DigitSequence
+    wholenumber=DigitSequence RecordMemberOperator decimalvalue=DigitSequence
 ;
 
 identifier:
@@ -253,7 +254,7 @@ WhileKeyword:           'while';
 ForEachKeyword:         'for each';
 RunKeyword:             'run';
 ArrayIteratorKeyword:   'in';
-RecordKeyword:          'Box';
+RecordKeyword:          'box';
 ReturnKeyword:          'return';
 OpenBracket:            '[';
 CloseBracket:           ']';
