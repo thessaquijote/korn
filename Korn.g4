@@ -154,6 +154,8 @@ assignmentRightOperand:
     variable
     | value
     | arithmeticExpression
+    | relationalExpression
+    | equalityExpression
     | subprogramCall
 ;
 
@@ -232,7 +234,7 @@ DataType:               'letter' | 'number' | 'decimal' | 'sentence' | 'boolean'
 Boolean:                'true' | 'false';
 ArithmeticOperator:     '*' | 'multiply with' | '+' | 'add with' | '-' | 'subtract with' | '/' | 'divide with';
 RelationalOperator:     '>' | '>=' | '<' | '<=';
-EqualityOperator:       'is equal to' | 'is not equal to';
+EqualityOperator:       'is equal to' | 'is not equal to' | '==' | '!=';
 ArrayRangeKeyword:      'from 1 to';
 AssignmentOperator:     'gets';
 LogicalOperator:        'and' | 'or';
@@ -263,12 +265,12 @@ End:                    'end';
 DigitSequence:          Digit+;
 Digit:                  Zero | NonZeroDigit;
 NonZeroDigit:           [1-9];
+Dot:                    '.';
 RecordMemberOperator:   Dot;
 Identifier:             NonDigitCharacter CharacterSequence*;
 StringLiteral:          ('"' ( '\\' [\\"] | ~[\\"] )* '"') | ('\'' ( '\\' [\\"] | ~[\\"] )* '\'');
 Zero:                   [0];
 NonDigitCharacter:      [a-zA-Z_];
-Dot:                    '.';
 CharacterSequence:      Character+;
 Character:              NonDigitCharacter | Digit;
 NEWLINE:                [\n\r] | EOF;
