@@ -77,7 +77,7 @@ conditionalStatement:
 ;
 
 whenStatement:
-    WhenKeyword condition block (IsKeyword nonBooleanValue block)* (NoneKeyword block)?
+    WhenKeyword variable block (IsKeyword nonBooleanValue block)* (NoneKeyword block)?
 ;
 
 ifStatement:
